@@ -1,9 +1,9 @@
 name: Stake attestation site build
 # The caller a site's listing runs in (node P15; stake-attestation/docs/builder-kms-signing.md). This file is not a
 # workflow here: the owner copies it to .github/workflows/ on the protected main of Verdikta's dedicated caller
-# repository, with every 419f06d3509a0367d679eed8cec966158b46f35b replaced by one commit of verdikta-applications:
+# repository, with every 76a22e7b5357d48ca20bb8e2dff8f67e5486c8da replaced by one commit of verdikta-applications:
 #
-#   sed 's/419f06d3509a0367d679eed8cec966158b46f35b/<commit>/g' stake-attestation/builder/caller/stake-attestation-site-build.yml
+#   sed 's/76a22e7b5357d48ca20bb8e2dff8f67e5486c8da/<commit>/g' stake-attestation/builder/caller/stake-attestation-site-build.yml
 #
 # The trust policy names this file's name and that commit, so changing either is a reviewed change on the owner's side.
 # The server starts it with a token that has Actions write on the repository, and that token can start or cancel any
@@ -41,12 +41,12 @@ permissions: {}
 
 jobs:
   listing:
-    uses: verdikta/verdikta-applications/.github/workflows/stake-attestation-builder.yml@419f06d3509a0367d679eed8cec966158b46f35b
+    uses: verdikta/verdikta-applications/.github/workflows/stake-attestation-builder.yml@76a22e7b5357d48ca20bb8e2dff8f67e5486c8da
     permissions:
       contents: read
       packages: write
     with:
-      builder-ref: 419f06d3509a0367d679eed8cec966158b46f35b
+      builder-ref: 76a22e7b5357d48ca20bb8e2dff8f67e5486c8da
       site-request: ${{ inputs.request }}
       site-auth: ${{ inputs.auth }}
       maker: ${{ inputs.maker }}
@@ -56,12 +56,12 @@ jobs:
       site-explorers: ${{ vars.STAKE_ATTESTATION_EXPLORERS }}
   sign:
     needs: listing
-    uses: verdikta/verdikta-applications/.github/workflows/stake-attestation-builder-sign.yml@419f06d3509a0367d679eed8cec966158b46f35b
+    uses: verdikta/verdikta-applications/.github/workflows/stake-attestation-builder-sign.yml@76a22e7b5357d48ca20bb8e2dff8f67e5486c8da
     permissions:
       contents: read
       id-token: write
     with:
-      builder-ref: 419f06d3509a0367d679eed8cec966158b46f35b
+      builder-ref: 76a22e7b5357d48ca20bb8e2dff8f67e5486c8da
       artifact-id: ${{ needs.listing.outputs.artifact-id }}
       outputs-sha256: ${{ needs.listing.outputs.outputs-sha256 }}
       maker: ${{ inputs.maker }}
